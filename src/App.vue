@@ -1,27 +1,34 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+  <div id="app">
+    <BarraLateral />
+    <div class="main">
+      <router-view />
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import HelloWorld from './components/HelloWorld.vue';
+import { defineComponent } from 'vue'
+import BarraLateral from './components/BarraLateral.vue'
 
 export default defineComponent({
   name: 'App',
   components: {
-    HelloWorld
+    BarraLateral
   }
-});
+})
 </script>
 
 <style>
+@import '@fortawesome/fontawesome-free/css/all.css';
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  display: flex;
+  height: 100vh;
+}
+
+.main {
+  flex-grow: 1;
+  padding: 20px;
 }
 </style>
