@@ -2,23 +2,32 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Home from '../components/Home.vue'
 import NovoCliente from '../components/NovoCliente.vue'
 import ClienteDetalhes from '../components/ClienteDetalhes.vue'
+import NovaLavagem from '../components/NovaLavagem.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    props: true
   },
   {
     path: '/novo-cliente',
     name: 'NovoCliente',
-    component: NovoCliente
+    component: NovoCliente,
+    props: true
   },
   {
-    path: '/cliente-detalhes',
+    path: '/clientes/:cpf',
     name: 'ClienteDetalhes',
     component: ClienteDetalhes,
-    props: route => ({ cliente: route.params.cliente })
+    props: true
+  },
+  {
+    path: '/nova-lavagem',
+    name: 'NovaLavagem',
+    component: NovaLavagem,
+    props: true
   }
 ]
 

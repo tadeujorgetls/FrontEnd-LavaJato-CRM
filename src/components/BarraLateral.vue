@@ -10,23 +10,19 @@
         <span class="icon"><i class="fas fa-user-plus"></i></span>
         <span>Novo Cliente</span>
       </router-link>
-      <a class="button is-light">
-        <span class="icon"><i class="fas fa-file-alt"></i></span>
-        <span>Relatório de Lavagens</span>
-      </a>
     </nav>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'BarraLateral'
-})
+  name: 'BarraLateral',
+});
 </script>
 
-<style scoped>  
+<style scoped>
 .barra-lateral {
   width: 250px;
   height: 100vh;
@@ -37,17 +33,20 @@ export default defineComponent({
   flex-direction: column;
   align-items: center;
 }
+
 .logo {
   font-size: 1.5em;
   font-weight: bold;
   color: white;
   margin-bottom: 20px;
 }
+
 nav {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
+
 .button {
   margin-bottom: 10px;
   text-align: left;

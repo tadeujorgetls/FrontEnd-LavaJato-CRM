@@ -25,4 +25,4 @@ export function validarCPF(cpf: string): boolean {
     if (rev !== parseInt(cpf.charAt(10))) return false;
     
     return true;
-  }  
+  }

@@ -1,9 +1,9 @@
 <template>
   <div class="home">
-    <div class="cpf-sessao">
-      <h1 class="titulo">Cliente</h1>
-      <div class="formulario">
-        <input class="input" type="text" placeholder="Insira o CPF" v-model="cpf" v-mask="'###.###.###-##'" masked="true" />
+    <div class="cpf-section">
+      <h1 class="title">Cliente</h1>
+      <div class="form">
+        <input class="input" type="text" placeholder="Insira o CPF" v-model="cpf" @keyup="handleCPF" required />
         <button class="button is-primary" @click="checkCPF">
           <span class="icon"><i class="fas fa-check"></i></span>
           <span>Check</span>
@@ -15,34 +15,45 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-import { validarCPF } from '../utils'
-//import { maska } from 'vue-the-mask'
+import { defineComponent, ref } from 'vue';
+import axios from 'axios';
+import { validarCPF } from '../utils';
 
 export default defineComponent({
   name: 'Home-Main',
-  //directives: { maska },
   setup() {
-    const cpf = ref('')
-    const cpfError = ref('')
+    const cpf = ref('');
+    const cpfError = ref('');
 
-    const checkCPF = () => {
-      const cleanedCPF = cpf.value.replace(/[^\d]+/g, '')
+    const checkCPF = async () => {
+      const cleanedCPF = cpf.value.replace(/[^\d]+/g, '');
       if (validarCPF(cleanedCPF)) {
-        cpfError.value = ''
-        console.log('CPF válido:', cleanedCPF)
+        cpfError.value = '';
+        try {
+          const response = await axios.get(`http://localhost:8082/clientes/${cleanedCPF}`);
+          const cliente = response.data;
+          window.location.href = `/clientes/${cliente.cpf}`;
+        } catch (error) {
+          cpfError.value = 'Cliente não encontrado';
+        }
       } else {
-        cpfError.value = 'CPF inválido'
+        cpfError.value = 'CPF inválido';
       }
-    }
+    };
+
+    const handleCPF = (event: KeyboardEvent) => {
+      const input = event.target as HTMLInputElement;
+      input.value = input.value.replace(/\D/g, '').slice(0, 11); // Limitar a 11 dígitos
+    };
 
     return {
       cpf,
       cpfError,
-      checkCPF
-    }
-  }
-})
+      checkCPF,
+      handleCPF,
+    };
+  },
+});
 </script>
 
 <style scoped>
@@ -53,33 +64,38 @@ export default defineComponent({
   height: 100vh;
   width: 100%;
 }
-.cpf-sessao {
+
+.cpf-section {
   text-align: center;
 }
-.titulo {
+
+.title {
   font-size: 1.5em;
   font-weight: bold;
   color: white;
   margin-bottom: 20px;
 }
-.formulario {
+
+.form {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .input {
   margin-right: 10px;
   padding: 10px;
   font-size: 1em;
 }
+
 .button {
   padding: 10px 15px;
   font-size: 1em;
-  display: flex;
-  align-items: center;
   background-color: #ffa491;
 }
-.button .icon {
-  margin-right: 5px;
+
+.error {
+  color: red;
+  margin-top: 10px;
 }
 </style>
